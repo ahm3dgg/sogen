@@ -10,6 +10,10 @@
 #include <optional>
 #include <functional>
 #include <typeindex>
+#include <map>
+
+template <typename ...Args>
+using serialized_map = std::map<Args...>;
 
 namespace utils
 {
@@ -224,6 +228,28 @@ namespace utils
                 this->write(entry.second);
             }
         }
+
+		template<typename Map>
+		void write_unordered_map(const Map& map)
+		{
+			using Key   = typename Map::key_type;
+			using Value = typename Map::mapped_type;
+			
+			serialized_map<Key, Value> sm;
+
+			this->write<uint64_t>(map.size());
+    
+			for (const auto& [k, v] : map)
+			{
+				sm[k] = v;
+			}
+
+			for (const auto& [k, v] : sm)
+			{
+				this->write(k);
+				this->write(v);
+			}
+		}
 
         const std::vector<std::byte>& get_buffer() const
         {
