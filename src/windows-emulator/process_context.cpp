@@ -859,7 +859,7 @@ void process_context::build_knowndlls_section_table(registry_manager& registry, 
     }
 }
 
-bool process_context::is_knowndll_section_exists(const std::u16string& name, bool is_32bit)
+bool process_context::is_knowndll_section_exists(const std::u16string& name, bool is_32bit) const
 {
     auto lname = utils::string::to_lower(name);
 
@@ -871,7 +871,7 @@ bool process_context::is_knowndll_section_exists(const std::u16string& name, boo
     return this->knowndlls64_sections.contains(lname);
 }
 
-std::optional<section> process_context::get_knowndll_section_by_name(const std::u16string& name, bool is_32bit)
+std::optional<section> process_context::get_knowndll_section_by_name(const std::u16string& name, bool is_32bit) const
 {
     auto lname = utils::string::to_lower(name);
 
@@ -893,7 +893,7 @@ std::optional<section> process_context::get_knowndll_section_by_name(const std::
     return {};
 }
 
-void process_context::add_knowndll_section(const std::u16string& name, section section, bool is_32bit)
+void process_context::add_knowndll_section(const std::u16string& name, const section& section, bool is_32bit)
 {
     auto lname = utils::string::to_lower(name);
 
